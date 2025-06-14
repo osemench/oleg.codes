@@ -26,6 +26,12 @@ function onWindowResize(){
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
+function getRandomColor() {
+  const colors = [0xFF698F, 0x4B0082, 0x2032B0, 0x27867E, 0xA0BCAC, 0xEBD800, 0xCA1F08];
+
+  const random = Math.floor(Math.random() * colors.length);
+  return  colors[random];
+}
 
 const group = new THREE.Group();
 const loader = new GLTFLoader();
@@ -43,7 +49,7 @@ loader.load('./lego_legs.glb', function (gltf) {
 
   // Material
   const material = new THREE.MeshPhongMaterial();
-  material.color.setHex(0x00ff00);
+  material.color.setHex(getRandomColor());
   material.flatShading = true;
   material.side = THREE.DoubleSide;
 
