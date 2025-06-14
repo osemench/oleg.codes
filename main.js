@@ -12,7 +12,8 @@ const mainLight = new THREE.DirectionalLight(0xCCCCCC, 5);
 mainLight.position.set(10, 10, 10);
 scene.add(mainLight);
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialiasing:true});
+renderer.setPixelRatio( window.devicePixelRatio * 1.5 );
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
