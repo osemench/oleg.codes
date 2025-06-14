@@ -2,12 +2,20 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xff0000);
+scene.background = new THREE.Color(0xFFF5DD);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize(){
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+}
 
 camera.position.z = 5;
 
@@ -19,7 +27,7 @@ loader.load('./lego_legs.glb', function (gltf) {
 
   var mesh = gltf.scene;
   mesh.scale.set(.035, .035, .035);
-  mesh.position.set(0, -0.75, 0);
+  mesh.position.set(0, 0, 0);
   mesh.rotation.set(0, 0, 0);
 
   // Change origin of rotation
@@ -35,7 +43,7 @@ loader.load('./lego_legs.glb', function (gltf) {
 });
 
 function animate() {
-  group.rotation.y += 0.01;
+  group.rotation.y += 0.0075;
   renderer.render(scene, camera);
 }
 renderer.setAnimationLoop(animate);
