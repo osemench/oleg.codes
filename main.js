@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xFFF5DD);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+const light = new THREE.AmbientLight( 0x404040, 5 ); // soft white light
 scene.add( light );
 
 const mainLight = new THREE.DirectionalLight(0xCCCCCC, 5);
@@ -20,6 +21,8 @@ document.body.appendChild(renderer.domElement);
 camera.position.z = 5;
 
 window.addEventListener( 'resize', onWindowResize, false );
+
+const controls = new OrbitControls( camera, renderer.domElement );
 
 function onWindowResize(){
     camera.aspect = window.innerWidth / window.innerHeight;
