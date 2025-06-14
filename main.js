@@ -5,9 +5,18 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xFFF5DD);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+scene.add( light );
+
+const mainLight = new THREE.DirectionalLight(0xCCCCCC, 5);
+mainLight.position.set(10, 10, 10);
+scene.add(mainLight);
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+camera.position.z = 5;
 
 window.addEventListener( 'resize', onWindowResize, false );
 
@@ -17,7 +26,6 @@ function onWindowResize(){
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-camera.position.z = 5;
 
 const group = new THREE.Group();
 const loader = new GLTFLoader();
@@ -27,13 +35,21 @@ loader.load('./lego_legs.glb', function (gltf) {
 
   var mesh = gltf.scene;
   mesh.scale.set(.035, .035, .035);
-  mesh.position.set(0, 0, 0);
-  mesh.rotation.set(0, 0, 0);
 
   // Change origin of rotation
   var box = new THREE.Box3().setFromObject( mesh );
   box.getCenter( mesh.position );
   mesh.position.multiplyScalar( - 1 );
+
+  // Material
+  const material = new THREE.MeshPhongMaterial();
+  material.color.setHex(0x00ff00);
+  material.flatShading = true;
+  material.side = THREE.DoubleSide;
+
+  mesh.traverse((o) => {
+    if (o.isMesh) o.material = material;
+  });
 
   scene.add( group );
   group.add( mesh );
